@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en-us">
+
+<head>
+    <!-- include the p5 core library using the CDN -->
+    <!-- script src="https://cdn.jsdelivr.net/npm/p5@1.11.10/lib/p5.min.js"></script -->
+
+    <!-- include the p5.js library from a local file -->
+    <script src="../../js/p5/p5.min.js"></script>
+
+    <!-- note that we aren't loading the p5 sound library - we are going to do this manually since
+         some browsers throw an error when using the p5 sound library in conjunction with instance mode
+    -->
+
+    <!-- custom CSS styles for this page -->
+    <style></style>
+
+</head>
+
+<body>
+    <a href="index.html">Click here to refresh the page</a>
+
+    <!-- note that it is possible to load sounds using HTML
+         this code will create an audio tag that provides a wrapper to interact with a MP3 file
+         if we were to get a reference to this element we could call the play() method on it
+         to trigger the sound
+    -->
+    <!--
+    <audio id="boing">
+        <source src="sounds/boing.mp3" type="audio/mpeg">
+    </audio>
+    -->
+
+    <!-- our sound code and p5 instances -->
+    <script>
+
+        // this function will create an audio element that we can trigger using the play() method
+        function createAudioElement(filename, type) {
+            /*
+            <audio>
+                <source src="FILENAME" type="TYPE">
+            </audio>
+            */
+
+            // begin by creating the audio and source tags
+            const elAudio = document.createElement('audio');
+            const elSource = document.createElement('source');
+
+            // assign attributes to the source tag
+            elSource.src = filename;
+            elSource.type = type;
+
+            // organize the source tag as a child of the audio tag
+            elAudio.appendChild(elSource);
+
+            // return the newly created audio tag
+            return elAudio;
+        }
+
+        let sketchCode1 = function (p) {
+            // instance-specific variables keep track of our bouncing ball
+            let x, y;
+            let xSpeed, ySpeed;
+            let r = 255;
+            let g = 255;
+            let b = 255;
+
+            // a reference to a source object that will be created using the 'createAudioElement' function
+            let mySound;
+
+            p.setup = function () {
+                // create our canvas
+                p.createCanvas(250, 250);
+
+                // randomize our ball location
+                x = p.random(25, p.width - 25);
+                y = p.random(25, p.height - 25);
+
+                // randomize our ball speed
+                xSpeed = p.random([-2, -1, 1, 2]);
+                ySpeed = p.random([-2, -1, 1, 2]);
+
+                // create an audio element and store the reference
+                mySound = createAudioElement('sounds/boing.mp3', 'audio/mpeg');
+            }
+
+            p.draw = function () {
+                // erase the background
+                p.strokeWeight(5);
+                p.stroke(255);
+                p.fill(0);
+                p.rect(0, 0, p.width, p.height);
+
+                // draw our ball
+                p.noStroke();
+                p.fill(r, g, b);
+                p.ellipse(x, y, 25, 25);
+
+                // move the ball
+                x += xSpeed;
+                y += ySpeed;
+
+                // bounce if necessary
+                if (x >= p.width - 25 || x < 25) {
+                    // reverse speed and change color
+                    xSpeed *= -1;
+                    r = p.random(255);
+                    g = p.random(255);
+                    b = p.random(255);
+
+                    // trigger the audio element we created for this instance
+                    mySound.play();
+                }
+                if (y >= p.height - 25 || y < 25) {
+                    // reverse speed and change color
+                    ySpeed *= -1;
+                    r = p.random(255);
+                    g = p.random(255);
+                    b = p.random(255);
+
+                    // trigger the audio element we created for this instance
+                    mySound.play();
+                }
+            }
+        }
+
+        // create some instances of our sketch
+        let sketch1 = new p5(sketchCode1);
+        let sketch2 = new p5(sketchCode1);
+        let sketch3 = new p5(sketchCode1);
+        let sketch4 = new p5(sketchCode1);
+        let sketch5 = new p5(sketchCode1);
+
+    </script>
+
+</body>
+
+</html>

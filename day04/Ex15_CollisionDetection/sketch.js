@@ -34,20 +34,22 @@ function setup() {
   fill(255);
   noStroke();
   imageMode(CENTER);
+
+  noCursor();
 }
 
 function draw() {
-  background(0, 30);
+  background(0);
 
   // display points
   text("Points: " + points, 20, 20);
 
   // move the character based on the mouse position
-  xPos = lerp(xPos, mouseX, 0.05);
-  yPos = lerp(yPos, mouseY, 0.05);
+  xPos = lerp(xPos, mouseX, 0.15);
+  yPos = lerp(yPos, mouseY, 0.15);
 
   // COLLISION DETECTION
-  if (dist(xPos, yPos, xCoin, yCoin) < 25) {
+  if (dist(xPos, yPos, xCoin, yCoin) < 40) {
     // collision happened, move the coin
     xCoin = random(25, width - 25);
     yCoin = random(25, height - 25);
