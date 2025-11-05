@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en-us">
+
+<head>
+  <!-- include the p5 core library using the CDN -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/p5@1.11.10/lib/p5.min.js"></script> -->
+
+  <!-- include the p5.js library from a local file -->
+  <script src="../../js/p5/p5.min.js"></script>
+
+  <!-- include the matter.js library using the CDN -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.20.0/matter.min.js" integrity="sha512-6+7rTBmR6pRFe9fa0vCFjFaHZj/XYa7774bEBzRtxgdpIJOS++R3cKd6Prg/eJmxtsJotd8KAg4g57uuVQsZKA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+  <!-- include the matter.js library from a local file -->
+  <script src="../matter-js/matter.min.js"></script>
+
+  <!-- your custom sketch code -->
+  <script src="sketch.js"></script>
+
+  <!-- custom CSS styles for this page -->
+  <style></style>
+
+</head>
+
+<body>
+  <button onclick="reset();">Reset</button>
+  <button onclick="setVelocity();">Set Velocity</button>
+  <button onclick="applyForce();">Apply Force</button>
+
+  <hr>
+
+  <h3>Ball 1 (Red)</h3>
+  <h3>Ball 2 (Blue)</h3>
+
+  <p>
+    <strong>To Compare:</strong> Open <strong>sketch.js</strong> and change the
+    <code>[options]</code> (like <code>frictionAir</code>, <code>density</code>,
+    or <code>restitution</code>) for Ball 1 and Ball 2 in the <code>setup()</code>
+    function. Then, press the buttons to see how they react differently.
+  </p>
+
+</body>
+
+</html>

@@ -20,7 +20,11 @@ function draw() {
 
     // every frame we have to draw all particles
     for (let i = 0; i < theParticles.length; i++) {
-        theParticles[i].moveAndDisplay();
+        let result = theParticles[i].moveAndDisplay();
+        if (result) {
+            theParticles.splice(i, 1);
+            i--;
+        }
     }
 }
 
@@ -58,5 +62,12 @@ class Particle {
         fill(this.red, this.green, this.blue);
         noStroke();
         ellipse(this.x, this.y, this.size, this.size);
+
+        if (this.size <= 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
