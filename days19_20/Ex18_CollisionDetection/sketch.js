@@ -98,13 +98,6 @@ function draw() {
 }
 
 
-
-function createBall(type, x, y) {
-
-
-
-}
-
 // this function runs every time two bodies collide
 function handleCollisionStart(event) {
 

@@ -15,12 +15,6 @@ function setup() {
     // Set gravity in our engine to pull objects downward
     engine.gravity.y = 0.2;
 
-    // Create a world within the engine to hold all physics bodies
-    world = Matter.Composite.create();
-
-    // Add the world to the engine
-    Matter.Composite.add(engine.world, world);
-
     // Let's add a box "body" to the world to see something happening
     // Here we create a rectangle body (a box) at position (200, 50) with width and height of 40
     // Note that 300,50 is the center point of the box
