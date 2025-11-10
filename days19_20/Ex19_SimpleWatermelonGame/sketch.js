@@ -67,8 +67,9 @@ function setup() {
     Matter.Events.on(engine, 'collisionStart', handleCollisionStart);
 
 
-    // draw all rectangles from their center point
+    // draw all shapes from their center point
     rectMode(CENTER);
+    imageMode(CENTER);
 }
 
 
@@ -118,7 +119,7 @@ function deleteBall(b) {
 function createBall(type, x, y) {
 
     // type is the type of ball to create (0, 1, 2, 3 or 4)
-    if (type >= 4 ) {
+    if (type > 4 ) {
         return;
     }
 
@@ -166,7 +167,7 @@ function draw() {
         let ballType = balls[i].customInfo.type;
 
         // draw the ball using its graphic
-        image(ballInfo[ ballType ].image, 0, 0, ballInfo[ ballType ].diameter*2, ballInfo[ ballType ].diameter*2);
+        image(ballInfo[ ballType ].image, 0, 0, ballInfo[ ballType ].diameter, ballInfo[ ballType ].diameter);
 
         // restore transofrmation matrix
         pop();
