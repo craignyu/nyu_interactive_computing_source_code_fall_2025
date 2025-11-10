@@ -5,20 +5,36 @@ let engine;
 let balls = [];
 let ground, ceiling, leftWall, rightWall;
 
-// Define the colors for ball bodies based on their "type" (index)
-// e.g., type 0 balls will have a color of (255,0,0)
-let ballColors = [
-    { red: 255, green: 0, blue: 0 },
-    { red: 0, green: 255, blue: 0 },
-    { red: 0, green: 0, blue: 255 },
-    { red: 255, green: 255, blue: 0 }
+// Define information for ball bodies based on their "type" (index in the array)
+let ballInfo = [
+    {
+        filename: '1-strawberry-55px.png',
+        diameter: 55
+    },
+    {
+        filename: '2-lemon-60px.png',
+        diameter: 60
+    },
+    {
+        filename: '3-kiwi-70px.png',
+        diameter: 70
+    },
+    {
+        filename: '4-orange-100px.png',
+        diameter: 100
+    },
+    {
+        filename: '5-watermelon-150px.png',
+        diameter: 150
+    }
 ];
-let ballSizes = [
-    20,
-    30,
-    40,
-    50
-]
+
+// Load our image assets
+function preload() {
+    for (let i = 0; i < ballInfo.length; i++) {
+        ballInfo[i].image = loadImage('../images/watermelongame/' + ballInfo[i].filename);
+    }
+}
 
 // setup function - used for commands that need to run only once
 function setup() {
@@ -107,7 +123,7 @@ function createBall(type, x, y) {
     }
 
     // create a new body for this ball
-    let ball = Matter.Bodies.circle(x, y, ballSizes[type], {
+    let ball = Matter.Bodies.circle(x, y, ballInfo[type].diameter/2, {
         restitution: 0.7, // bounciness
         density: 0.1,
         friction: 0.2
@@ -117,8 +133,6 @@ function createBall(type, x, y) {
     ball.customInfo = {
         type: type
     }
-
-    console.log(ball.customInfo);
 
     // add the ball to our array
     balls.push( ball );
@@ -150,10 +164,9 @@ function draw() {
 
         // figure out what type of ball this is and use that color and size for the ball
         let ballType = balls[i].customInfo.type;
-        fill( ballColors[ballType].red, ballColors[ballType].green, ballColors[ballType].blue );
 
-        // draw the ball
-        ellipse(0, 0, ballSizes[ballType]*2, ballSizes[ballType]*2);
+        // draw the ball using its graphic
+        image(ballInfo[ ballType ].image, 0, 0, ballInfo[ ballType ].diameter*2, ballInfo[ ballType ].diameter*2);
 
         // restore transofrmation matrix
         pop();
