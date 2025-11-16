@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://unpkg.com/qrcode-generator@1.4.4/qrcode.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8" />
+
+  </head>
+  <body>
+    <h1>Test QR Code Generator</h1>
+    <input type="text" id="text_input" value="hello world">
+    <div id="qrcode_container"></div>
+
+    <script>
+      // get a reference to a the div element where we will draw our qr code
+      const qrcode_container = document.querySelector('#qrcode_container');
+
+      // get a reference to the text box where the user can input text to be encoded
+      const text_input = document.querySelector('#text_input');
+
+      // variable to keep track of the string to encode
+      let inputString = text_input.value;
+
+      // whenever the user makes a change to the text box
+      text_input.oninput = function(event) {
+        // update the input string
+        inputString = text_input.value;
+
+        // regenerate the QR code
+        createQR();  
+      }
+
+      // regenerate the QR code once when the page loads
+      createQR();
+
+      // function to create a QR code
+      function createQR() {
+        let qr = qrcode(0, 'L');
+        qr.addData(inputString);
+        qr.make();
+        // create an image from it:
+        // arguments are cell size, margin size, and alt tag
+        // cell size default: 2
+        // margin zize default: 4 * cell size
+        let qrImg = qr.createImgTag(5, 20, "qr code");
+        
+        // put the image into the HTML div:
+        qrcode_container.innerHTML = qrImg;
+      }
+    </script>
+  </body>
+</html>
+

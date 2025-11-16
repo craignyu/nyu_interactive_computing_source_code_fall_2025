@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
+    <style>
+      #reader_element {
+        width: 500px;
+        height: 500px;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>QR Code Reader</h1>
+    <div id="reader_element"></div>
+    <div id="output_element"></div>
+
+    <script>
+      // documentation: https://scanapp.org/html5-qrcode-docs/docs/apis/classes/Html5QrcodeScanner
+      //                https://github.com/mebjas/html5-qrcode?tab=readme-ov-file
+
+      // create a new scanner instance
+      const html5QrcodeScanner = new Html5QrcodeScanner("reader_element", { fps: 10, qrbox: 250, rememberLastUsedCamera: true });
+
+      // set up the scanner to call the 'onScanSuccess' function when it detects a code
+      html5QrcodeScanner.render(onScanSuccess);
+
+      // function to run once a QR code has been scanned
+      function onScanSuccess(decodedText, decodedResult) {
+        document.querySelector('#output_element').innerText = `Code scanned = ${decodedText}; ${decodedResult}`;
+      }
+    </script>
+  </body>
+</html>
+

@@ -15,9 +15,8 @@ function setup() {
     // Set gravity in our engine to pull objects downward
     engine.gravity.y = 1;
 
-    // Create 3 boxes. Each one will have a different "frictionAir" property, which simulates are resistance
-    // A value of 0 means the body will never slow as it moves through space. The higher the value, the faster a body slows when moving through space.
-    // Default is 0.1
+    // Create 3 boxes. Each one will have a different "restitution" property, which simulates "bounciness"
+    // A value of 0 means no bounce, 1.0 is a very high bounce
     ball1 = Matter.Bodies.circle(150, 50, 20, { restitution: 0.0 });
     ball2 = Matter.Bodies.circle(300, 50, 20, { restitution: 0.5 });
     ball3 = Matter.Bodies.circle(450, 50, 20, { restitution: 1.0 });

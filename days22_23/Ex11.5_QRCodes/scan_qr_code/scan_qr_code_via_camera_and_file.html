@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
+    <style>
+      #reader_element {
+        width: 320px;
+        height: 240px;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>QR Code Reader</h1>
+    <button id="button_usecamera">Start Camera</button>
+    <input type="file" id="qr-input-file" accept="image/*">
+    <div id="reader_element"></div>
+    <div id="output_element"></div>
+
+    <script>
+
+      // create a new QR Code reader object
+      const html5QrCode = new Html5Qrcode("reader_element");
+
+      // scan using a file
+      document.getElementById('qr-input-file').oninput = async function(event) {
+        console.log("on change");
+
+        // attempt to stop the camera scanner, if it is active
+        try {
+          await html5QrCode.stop();
+        }
+        catch (error) {
+          console.log("camera stop failed");
+        }
+
+        try {
+          // if the user didn't select a file
+          if (event.target.files.length == 0) {
+            // No file selected, ignore 
+            return;
+          }
+
+          // otherwise extract the file
+          const imageFile = event.target.files[0];
+
+          // scan the code
+          const decodedText = await html5QrCode.scanFile(imageFile, true)
+          document.getElementById('output_element').innerText = decodedText;
+
+          // reset file input
+          event.target.value = '';
+
+          console.log("file scan complete");        
+        }
+
+        // handle any errors here
+        catch(error) {
+          console.log("something went wrong, but we are ignoring it");
+        }
+
+      
+      }
+
+
+      // scan using a camera (you'll want to test this on a phone)
+      document.getElementById('button_usecamera').onclick = async function(event) {
+
+        try {
+
+          // start up the camera scanner, preferring forward-facing cameras for mobile devices
+          html5QrCode.start(
+            { facingMode: "environment" }, 
+
+            // these are our configuration options
+            {
+              fps: 10,    // Optional, frame per seconds for qr code scanning
+              qrbox: { width: 250, height: 250 }  // Optional, if you want bounded box UI
+            },
+
+            // this function will run when we successfully scan the code
+            function (decodedText, decodedResult) {
+              // do something when code is read
+              document.getElementById('output_element').innerText = decodedText;
+            },
+            (errorMessage) => {
+              // parse error, ignore it.
+            });
+
+        }
+
+        // handle scanning errors here
+        catch (error) {
+          alert("A scanning error occured");
+        }
+      }
+
+     
+    </script>
+  </body>
+</html>
+
