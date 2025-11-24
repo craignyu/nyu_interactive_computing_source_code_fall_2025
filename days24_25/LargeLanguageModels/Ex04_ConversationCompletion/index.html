@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversation Completion</title>
+
+    <!-- Load the WebLLMHelper script to streamline working with the LLM -->
+    <!-- Note that we have to load this as a "module" script -->
+    <script type="module" src="../js/WebLLMHelper.js"></script>
+
+    <style>
+        #conversation_container {
+            height: 300px;
+            background-color: #eee;
+            font-family: monospace;
+            overflow: scroll;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Conversation Completion</h1>
+
+    <input id="user_input" type="text">
+
+    <button id="button_send">Send Message</button>
+
+    <div id="conversation_container"></div>
+
+    <!-- Custom code - note that we also need to mark this as a module -->
+    <!-- note that we are writing this example using "vanilla" JavaScript to deal with the large amounts of text -->
+    <script type="module">
+
+        // only proceed once the document has fully loaded
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // construct a new WebLLMHelper object
+            const llmHelper = new WebLLMHelper();
+
+            // get a reference to our DOM elements
+            const user_input = document.getElementById('user_input');
+            const button_send = document.getElementById('button_send');
+            const conversation_container = document.getElementById('conversation_container');
+
+            // set up a new conversation and grab the conversation id
+            let coversationId = llmHelper.startConversation({
+                systemPrompt: 'You are a helpful assistant who answers succinctly.'
+            });
+
+            // wire up an onclick even to run a function every time the user clicks on the button
+            // note that we are marking this function as 'async' which will allow us
+            // to 'pause' the function and wait for a result from the LLM without
+            // block the entire program
+            button_send.onclick = async function () {
+
+                // only send the request if the LLM Helper is ready
+                if (!llmHelper.ready) {
+                    return;
+                }
+
+                // extract the user's message
+                let userMessage = user_input.value;
+
+                // clear the input box
+                user_input.value = '';
+
+                // add the user's message to the conversation history
+                conversation_container.innerText += `You: ${userMessage}\n\n`;
+                conversation_container.innerText += `LLM: `;
+
+                const response = await llmHelper.continueConversation({
+                    id: coversationId,
+                    message: userMessage,
+                    onStream: (chunk, fullText) => {
+                        console.log("New token:", chunk);
+                        conversation_container.innerText += chunk;
+
+                        // scroll to bottom of div after each chunk
+                        conversation_container.scrollTop = conversation_container.scrollHeight;
+                    }
+                });
+
+                conversation_container.innerText += `\n\n`;
+            };
+        });
+    </script>
+
+</body>
+
+</html>
