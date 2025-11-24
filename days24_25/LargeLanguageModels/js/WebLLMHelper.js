@@ -1,3 +1,27 @@
+/*
+MIT License
+
+Copyright (c) 2025
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 import { CreateMLCEngine } from "https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.79/lib/index.min.js";
 
 class WebLLMHelper {
@@ -24,7 +48,7 @@ class WebLLMHelper {
     }
 
     async load(onProgress) {
-        // --- P5 PRELOAD MAGIC ---
+        // P5 preload logic
         if (window._incrementPreload) {
             window._incrementPreload();
         }
@@ -96,9 +120,7 @@ class WebLLMHelper {
 
         let systemPrompt = args.systemPrompt || "You are a helpful assistant.";
 
-        // --- FIX 1: REFINED PROMPT INJECTION ---
         if (args.jsonSchema) {
-             // We stringify ONLY the properties to avoid confusing the model with schema metadata
              const schemaProperties = args.jsonSchema.schema.properties;
              const schemaString = JSON.stringify(schemaProperties, null, 2);
              
@@ -166,12 +188,11 @@ class WebLLMHelper {
                     finalResponseText = response.choices[0].message.content;
                 }
 
-                // --- FIX 2: CLEANING & SMART UNWRAPPING ---
                 if (req.jsonSchema) {
                     // 1. Clean Markdown
                     finalResponseText = finalResponseText.replace(/```json/g, '').replace(/```/g, '').trim();
 
-                    // 2. Smart Unwrap (The Safety Net)
+                    // 2. Smart Unwrap
                     try {
                         const parsed = JSON.parse(finalResponseText);
                         
