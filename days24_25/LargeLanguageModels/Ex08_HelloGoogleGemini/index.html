@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello, Web LLM</title>
+
+    <!-- include the p5 core library using the CDN -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/p5@1.11.10/lib/p5.min.js"></script> -->
+
+    <!-- include the p5.js library from a local file -->
+    <script src="../../../js/p5/p5.min.js"></script>
+
+    <!-- Load the GeminiHelper script to streamline working with the LLM -->
+    <!-- Note that we have to load this as a "module" script -->
+    <script type="module" src="../js/GeminiHelper.js"></script>
+
+    <!-- your custom sketch code -->
+    <script src="sketch.js"></script>
+</head>
+
+<body>
+    <h1>Hello Google Gemini</h1>
+
+    <p>To use this example you will need to obtain a Google Gemini API key. Here's how you can do this:</p>
+
+    <ul>
+        <li>Visit <a href="https://aistudio.google.com/app/apikey">https://aistudio.google.com/app/apikey</a></li>
+        <li>Consent to the Google API Terms of Service and click "I accept"</li>
+        <li>Click the "Create API key" button</li>
+    </ul>
+
+    <p>Some important notes:</p>
+
+    <ul>
+        <li>Generative AI APIs have usage limits, and thus require API keys.</li>
+        <li>Because of this, we don't want to expose the key here in the JavaScript where anyone can see it by viewing the source of the page.</li>
+        <li>To get around this, this page will prompt you to enter a Google Gemini API key. It will then store the API key in localStorage for later use.</li>
+        <li>A more comprehensive solution would be to set up a back end (server-side) program that acts as a "proxy" to contact Google Gemini on your behalf. This proxy server can then store your API key securely.</li>
+    </ul>
+
+</body>
+
+</html>
